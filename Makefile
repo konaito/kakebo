@@ -22,6 +22,9 @@ push:
 	git commit -m "$(filter-out $@,$(MAKECMDGOALS))"
 	git push
 
+%:
+	@:
+
 all: build deploy
 
 .PHONY: all fmt build deploy commit push
