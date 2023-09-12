@@ -12,31 +12,21 @@ const Auth = () => {
   };
 
   return (
-    <div className="Auth">
-      <div className="d-flex flex-column vh-100 justify-content-between">
-        <div className="text-center py-4">
-          <h1>WalletHub</h1>
-        </div>
-        <div className="d-flex justify-content-center align-items-center">
-          <img
-            src="/src/wallet-solid.svg"
-            alt="App Icon"
-            className="img-fluid"
-            style={{ maxWidth: "150px" }}
-          />
-        </div>
-        <div className="d-flex justify-content-center">
-          <div className="py-4">
-            <button
-              className="btn btn-block"
-              style={{ backgroundColor: "#00C300", color: "#fff" }}
-              onClick={handleLoginWithLine}
-            >
-              LINEでログイン
-            </button>
-          </div>
-        </div>
-      </div>
+    <div className="Auth d-flex flex-column justify-content-center align-items-center vh-100">
+      <h1 className="mb-4">WalletHub</h1>
+      <img
+        src="/src/wallet-solid.svg"
+        alt="App Icon"
+        className="img-fluid mb-4"
+        style={{ maxWidth: "100px" }}
+      />
+      <button
+        className="btn btn-block"
+        style={{ backgroundColor: "#00C300", color: "#fff" }}
+        onClick={handleLoginWithLine}
+      >
+        LINEでログイン
+      </button>
     </div>
   );
 };
