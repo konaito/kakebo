@@ -9,6 +9,7 @@ const Demo = () => {
     if (storedValue) {
       setValue(storedValue);
     }
+    console.log(localStorage.getItem("userData"));
   }, []);
 
   const handleSubmit = () => {
