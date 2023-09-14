@@ -7,7 +7,6 @@ const Auth = () => {
     const channelId = process.env.REACT_APP_LINE_CHANNEL_ID;
     const redirectUri = process.env.REACT_APP_LINE_REDIRECT_URI;
     const url = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${channelId}&redirect_uri=${redirectUri}&state=${state}&scope=profile`;
-
     window.location.href = url;
   };
 

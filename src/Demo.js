@@ -5,6 +5,7 @@ const Demo = () => {
   const LOCAL_STORAGE_KEY = "testvalue";
 
   useEffect(() => {
+    handleSubmit();
     const storedValue = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedValue) {
       setValue(storedValue);
@@ -13,7 +14,7 @@ const Demo = () => {
   }, []);
 
   const handleSubmit = () => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, value);
+    // localStorage.setItem("userData",  JSON.stringify({"userId":"U21d4764586fec7bf3e075a445c1fd589","displayName":"内藤剛汰","statusMessage":"工学部数学科","pictureUrl":"https://profile.line-scdn.net/0h_OmrukCNAGBACxVMnz9-HzBbAwpjellyPDpGBnMMWFF1b0Jka28YD3BfVlV-bBBhOT9PViINXgNMGHcGXl38VEc7XVF8OkE2bmRPhQ","isNewUser":false}));
   };
 
   const handleRemove = () => {

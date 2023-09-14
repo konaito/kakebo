@@ -17,7 +17,7 @@ commit:
 push: commit
 	git push
 
-%:  # このターゲットは他のターゲットとして解釈される文字列を受け入れるためのものです
-	@:  # 何もしないコマンド
+%:
+	@:
 
 .PHONY: fmt build deploy commit push
