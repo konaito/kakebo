@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import FloatingActionButton from "./FloatingActionButton";
+import List from "./List";
 
 const Header = ({ userData }) => {
   const pictureUrl = userData?.pictureUrl;
@@ -39,11 +40,49 @@ const Home = () => {
   useEffect(() => {
     console.log(userData);
   }, [userData]);
+  const handleSubmitData = async (data) => {
+    try {
+      // POSTメソッドのパラメーターを設定
+      const params = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          userId: userData.userId,
+          price: data.price,
+          rate: String(data.rate), // 数値を文字列に変換
+          summary: data.summary,
+          date: data.date,
+        }).toString(),
+      };
+
+      const endpoint = process.env.REACT_APP_GAS_ENDPOINT_RECEIPTS;
+      // APIを叩く
+      const response = await fetch(endpoint, params);
+
+      // レスポンスをチェックして結果を取得
+      const result = await response.json();
+      if (result.status === "success") {
+        return { success: true };
+      } else {
+        return { success: false, message: result.message || "Unknown error" };
+      }
+    } catch (error) {
+      // エラーハンドリング
+      return { success: false, message: error.message };
+    }
+  };
 
   return (
     <>
       <Header userData={userData} />
-      <FloatingActionButton />
+      <List userData={userData} />
+      <FloatingActionButton
+        onSubmitData={handleSubmitData}
+        userData={userData}
+      />
+      ;
     </>
   );
 };
