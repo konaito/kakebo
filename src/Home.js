@@ -2,30 +2,9 @@ import { useState, useEffect } from "react";
 import FloatingActionButton from "./FloatingActionButton";
 import List from "./List";
 
-const Header = ({ userData }) => {
-  const pictureUrl = userData?.pictureUrl;
-  const displayName = userData?.displayName;
-
-  return (
-    <nav className="navbar bg-body-tertiary">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          <img
-            src={pictureUrl}
-            alt="Logo"
-            width="30"
-            height="24"
-            className="d-inline-block align-text-top"
-          />
-          {displayName}
-        </a>
-      </div>
-    </nav>
-  );
-};
-
 const Home = () => {
   const [userData, setUserData] = useState(null);
+  const [reloadFlag, setReloadFlag] = useState(true);
 
   useEffect(() => {
     const storedValue = localStorage.getItem("userData");
@@ -37,12 +16,8 @@ const Home = () => {
     setUserData(parsedData);
   }, []);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
   const handleSubmitData = async (data) => {
     try {
-      // POSTメソッドのパラメーターを設定
       const params = {
         method: "POST",
         headers: {
@@ -51,33 +26,52 @@ const Home = () => {
         body: new URLSearchParams({
           userId: userData.userId,
           price: data.price,
-          rate: String(data.rate), // 数値を文字列に変換
+          rate: String(data.rate),
           summary: data.summary,
           date: data.date,
         }).toString(),
       };
 
       const endpoint = process.env.REACT_APP_GAS_ENDPOINT_RECEIPTS;
-      // APIを叩く
       const response = await fetch(endpoint, params);
-
-      // レスポンスをチェックして結果を取得
       const result = await response.json();
       if (result.status === "success") {
+        setReloadFlag(!reloadFlag);
         return { success: true };
       } else {
         return { success: false, message: result.message || "Unknown error" };
       }
     } catch (error) {
-      // エラーハンドリング
       return { success: false, message: error.message };
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const isConfirmed = window.confirm("削除してもよろしいですか？");
+    const endpoint = `${process.env.REACT_APP_GAS_ENDPOINT_DELETERECIPT}?id=${id}`;
+    if (isConfirmed) {
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        if (data.status === "success") {
+          setReloadFlag(!reloadFlag);
+        } else {
+          alert("削除中にエラーが発生しました。");
+        }
+      } catch (error) {
+        console.error("Error deleting item:", error);
+        alert("削除中にエラーが発生しました。");
+      }
     }
   };
 
   return (
     <>
-      <Header userData={userData} />
-      <List userData={userData} />
+      <List
+        userData={userData}
+        onDeleteData={handleDelete}
+        reloadFlag={reloadFlag}
+      />
       <FloatingActionButton
         onSubmitData={handleSubmitData}
         userData={userData}
