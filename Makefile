@@ -1,9 +1,13 @@
 FORMATTER=prettier
 FORMATTER_OPTIONS=--write
 TARGET_FILES=src/**/*.js
+TARGET_FILES_GS=scripts/**/*.gs
 
 fmt:
 	$(FORMATTER) $(FORMATTER_OPTIONS) $(TARGET_FILES)
+
+fmtgs:
+	$(FORMATTER) $(FORMATTER_OPTIONS) $(TARGET_FILES_GS)
 
 start:
 	npm start
