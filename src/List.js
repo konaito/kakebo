@@ -55,7 +55,7 @@ const List = ({ userData, onDeleteData, reloadFlag, onLogout, intToStr }) => {
         onLogout={onLogout}
         intToStr={intToStr}
       />
-      <div className="container mt-4" style={{marginBottom:"80px"}}>
+      <div className="container mt-4" style={{ marginBottom: "80px" }}>
         {Object.keys(groupedReceipts).map((date) => (
           <div key={date} className="mb-2">
             <div className="d-flex justify-content-between px-2">

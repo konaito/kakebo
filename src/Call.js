@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { RingLoader } from 'react-spinners';
 
 const Call = () => {
   const [error, setError] = useState(null);
@@ -34,7 +35,21 @@ const Call = () => {
     fetchData();
   }, [location, navigate]);
 
-  return <div>{error && <p>{error}</p>}</div>;
+  const styles = {
+    container: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      width: '100vw',
+      backgroundColor: '#f5f5f5'
+    }
+  };
+
+  return <div>{error ? (<p>{error}</p>):(
+    <div style={styles.container}>
+      <RingLoader color="#4A90E2" size={150} />
+    </div>)}</div>;
 };
 
 export default Call;
