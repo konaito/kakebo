@@ -3,7 +3,7 @@ import axios from "axios";
 
 const FloatingActionButton = ({ onSubmitData }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [nowRate, setNowRate] = useState(null);
+  const [nowRate, setNowRate] = useState("");
   const [todayDate, setTodayDate] = useState("");
 
   useEffect(() => {
@@ -68,8 +68,8 @@ const ModalContent = ({
   nowRate,
   todayDate: initialTodayDate,
 }) => {
-  const [rate, setRate] = useState(null);
-  const [price, setPrice] = useState(null);
+  const [rate, setRate] = useState("");
+  const [price, setPrice] = useState("");
   const [PriceChanged, setPriceChanged] = useState(true);
   const [isRateError, setIsRateError] = useState(false);
   const [isPriceError, setIsPriceError] = useState(false);
@@ -157,110 +157,112 @@ const ModalContent = ({
             className="btn btn-outline-secondary border-0"
             onClick={onClose}
           >
-            <i class="fa-solid fa-xmark"></i>
+            <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
         <table className="table table-borderless">
-          <tr>
-            <th className="flex-shrink-0 fw-normal py-2">日付</th>
-            <td>
-              <input
-                type="date"
-                className="form-control"
-                value={date}
-                onChange={handleDateChange}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="flex-shrink-0 fw-normal py-2">レート</th>
-            <td className="input-group py-2 flex-grow-1">
-              <span
-                className="input-group-text fw-bold"
-                style={{ backgroundColor: "#f8f9fa" }}
-              >
+          <tbody>
+            <tr>
+              <th className="flex-shrink-0 fw-normal py-2">日付</th>
+              <td>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={date}
+                  onChange={handleDateChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th className="flex-shrink-0 fw-normal py-2">レート</th>
+              <td className="input-group py-2 flex-grow-1">
                 <span
-                  className={nowRate === rate ? "text-success" : "text-muted"}
+                  className="input-group-text fw-bold"
+                  style={{ backgroundColor: "#f8f9fa" }}
                 >
-                  now
+                  <span
+                    className={nowRate === rate ? "text-success" : "text-muted"}
+                  >
+                    now
+                  </span>
                 </span>
-              </span>
-              <input
-                type="text"
-                className="form-control"
-                id="rateInput"
-                aria-label="Amount (to the nearest dollar)"
-                value={rate}
-                onChange={(e) => {
-                  handleRateChange(e);
-                }}
-              />
-              <span
-                className="input-group-text"
-                style={{ backgroundColor: "#f8f9fa" }}
-              >
-                円<span className="mx-1">/</span>ドル
-              </span>
-            </td>
-          </tr>
-          {isRateError && (
-            <tr>
-              <th className="flex-shrink-0"></th>
-              <td className="text-danger">
-                <i className="fa-solid fa-circle-exclamation text-danger"></i>
-                正しい値を入力してください
+                <input
+                  type="text"
+                  className="form-control"
+                  id="rateInput"
+                  aria-label="Amount (to the nearest dollar)"
+                  value={rate}
+                  onChange={(e) => {
+                    handleRateChange(e);
+                  }}
+                />
+                <span
+                  className="input-group-text"
+                  style={{ backgroundColor: "#f8f9fa" }}
+                >
+                  円<span className="mx-1">/</span>ドル
+                </span>
               </td>
             </tr>
-          )}
-          <tr>
-            <th className="flex-shrink-0 fw-normal py-2">金額</th>
-            <td className="input-group py-2">
-              <span
-                className="input-group-text"
-                style={{ backgroundColor: "#f8f9fa" }}
-              >
-                $
-              </span>
-              <input
-                type="text"
-                className="form-control"
-                aria-label="Amount (to the nearest dollar)"
-                onChange={(e) => {
-                  handlePriceChange(e);
-                }}
-              />
-            </td>
-          </tr>
-          {isPriceError && (
+            {isRateError && (
+              <tr>
+                <th className="flex-shrink-0"></th>
+                <td className="text-danger">
+                  <i className="fa-solid fa-circle-exclamation text-danger"></i>
+                  正しい値を入力してください
+                </td>
+              </tr>
+            )}
             <tr>
-              <th className="flex-shrink-0"></th>
-              <td className="text-danger">
-                <i className="fa-solid fa-circle-exclamation text-danger"></i>
-                正しい値を入力してください
+              <th className="flex-shrink-0 fw-normal py-2">金額</th>
+              <td className="input-group py-2">
+                <span
+                  className="input-group-text"
+                  style={{ backgroundColor: "#f8f9fa" }}
+                >
+                  $
+                </span>
+                <input
+                  type="text"
+                  className="form-control"
+                  aria-label="Amount (to the nearest dollar)"
+                  onChange={(e) => {
+                    handlePriceChange(e);
+                  }}
+                />
               </td>
             </tr>
-          )}
-          <tr>
-            <th className="flex-shrink-0 fw-normal py-2">概要</th>
-            <td>
-              <textarea
-                className="form-control py-2"
-                id="exampleFormControlTextarea1"
-                rows="3"
-                style={{ resize: "none" }}
-                value={summary}
-                onChange={handleSummaryChange}
-              ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <th className="flex-shrink-0"></th>
-            <td className="text-secondary">
-              円換算すると{Math.round(rate * price)}円です。
-              <br />
-              現在のレートは8時間以内に取得されたものです。
-            </td>
-          </tr>
+            {isPriceError && (
+              <tr>
+                <th className="flex-shrink-0"></th>
+                <td className="text-danger">
+                  <i className="fa-solid fa-circle-exclamation text-danger"></i>
+                  正しい値を入力してください
+                </td>
+              </tr>
+            )}
+            <tr>
+              <th className="flex-shrink-0 fw-normal py-2">概要</th>
+              <td>
+                <textarea
+                  className="form-control py-2"
+                  id="exampleFormControlTextarea1"
+                  rows="3"
+                  style={{ resize: "none" }}
+                  value={summary}
+                  onChange={handleSummaryChange}
+                ></textarea>
+              </td>
+            </tr>
+            <tr>
+              <th className="flex-shrink-0"></th>
+              <td className="text-secondary">
+                円換算すると{Math.round(rate * price)}円です。
+                <br />
+                現在のレートは8時間以内に取得されたものです。
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>

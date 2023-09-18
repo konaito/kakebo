@@ -14,8 +14,8 @@ deploy: build
 commit:
 	git add . && git commit -m "$(filter-out $@,$(MAKECMDGOALS))"
 
-push: commit
-	git push
+push: 
+	git add . && git commit -m "$(filter-out $@,$(MAKECMDGOALS))" && git push
 
 %:
 	@:

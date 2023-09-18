@@ -2,22 +2,21 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./Header";
 
-const List = ({ userData, onDeleteData, reloadFlag }) => {
-  const [groupedReceipts, setGroupedReceipts] = useState(null);
-  const [useage, setUseage] = useState(null);
+const List = ({ userData, onDeleteData, reloadFlag, onLogout }) => {
+  const [groupedReceipts, setGroupedReceipts] = useState({});
+  const [useage, setUseage] = useState(0);
 
   useEffect(() => {
-    setGroupedReceipts({});
-    setUseage(0);
     const endpoint = process.env.REACT_APP_GAS_ENDPOINT_FROMRECEIPTS;
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${endpoint}?userId=${userData.userId}`,
+          `${endpoint}?userId=${userData?.userId}`,
         );
-        response.data.forEach((i) => {
-          setUseage(useage + i.price * i.rate);
-        });
+        const totalUseage = response.data.reduce((sum, item) => {
+          return sum + item.price * item.rate;
+        }, 0);
+        setUseage(totalUseage);
 
         const sortedData = response.data.sort(
           (a, b) => new Date(b.date) - new Date(a.date),
@@ -38,19 +37,22 @@ const List = ({ userData, onDeleteData, reloadFlag }) => {
           acc[dateStr].total += item.price * item.rate;
           return acc;
         }, {});
-
+        setGroupedReceipts({});
         setGroupedReceipts(groupedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
-  }, [reloadFlag]);
+  }, [userData, reloadFlag]);
 
   return (
     <>
-      <Header useage={useage} />
+      <Header
+        useage={useage.toFixed(0)}
+        userData={userData}
+        onLogout={onLogout}
+      />
       <div className="container mt-4">
         {Object.keys(groupedReceipts).map((date) => (
           <div key={date} className="mb-2">

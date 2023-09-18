@@ -3,7 +3,7 @@ import FloatingActionButton from "./FloatingActionButton";
 import List from "./List";
 
 const Home = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
   const [reloadFlag, setReloadFlag] = useState(true);
 
   useEffect(() => {
@@ -15,6 +15,14 @@ const Home = () => {
     const parsedData = JSON.parse(storedValue);
     setUserData(parsedData);
   }, []);
+
+  const handleLogout = () => {
+    const isConfirmed = window.confirm("ログアウトしますか？"); // ログアウトの確認
+    if (isConfirmed) {
+      localStorage.removeItem("userData"); // userDataをlocalStorageから削除
+      window.location.href = "/auth"; // 認証ページにリダイレクト
+    }
+  };
 
   const handleSubmitData = async (data) => {
     try {
@@ -71,12 +79,12 @@ const Home = () => {
         userData={userData}
         onDeleteData={handleDelete}
         reloadFlag={reloadFlag}
+        onLogout={handleLogout}
       />
       <FloatingActionButton
         onSubmitData={handleSubmitData}
         userData={userData}
       />
-      ;
     </>
   );
 };
