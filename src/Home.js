@@ -16,6 +16,19 @@ const Home = () => {
     setUserData(parsedData);
   }, []);
 
+  const intToStr = (int) => {
+    var ret = "";
+    const str = String(int);
+    var n = str.length;
+    while (n) {
+      ret += str[str.length - n];
+      if (n % 3 === 1 && n !== 1) {
+        ret += ",";
+      }
+      n -= 1;
+    }
+    return ret;
+  };
   const handleLogout = () => {
     const isConfirmed = window.confirm("ログアウトしますか？"); // ログアウトの確認
     if (isConfirmed) {
@@ -80,6 +93,7 @@ const Home = () => {
         onDeleteData={handleDelete}
         reloadFlag={reloadFlag}
         onLogout={handleLogout}
+        intToStr={intToStr}
       />
       <FloatingActionButton
         onSubmitData={handleSubmitData}

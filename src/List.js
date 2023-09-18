@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./Header";
 
-const List = ({ userData, onDeleteData, reloadFlag, onLogout }) => {
+const List = ({ userData, onDeleteData, reloadFlag, onLogout, intToStr }) => {
   const [groupedReceipts, setGroupedReceipts] = useState({});
   const [useage, setUseage] = useState(0);
 
@@ -52,13 +52,14 @@ const List = ({ userData, onDeleteData, reloadFlag, onLogout }) => {
         useage={useage.toFixed(0)}
         userData={userData}
         onLogout={onLogout}
+        intToStr={intToStr}
       />
       <div className="container mt-4">
         {Object.keys(groupedReceipts).map((date) => (
           <div key={date} className="mb-2">
             <div className="d-flex justify-content-between">
               <h4 dangerouslySetInnerHTML={{ __html: date }}></h4>
-              <h4>{groupedReceipts[date].total.toFixed(0)}円</h4>
+              <h4>{intToStr(groupedReceipts[date].total.toFixed(0))}円</h4>
             </div>
             <ol className="list-group list-group-flush">
               {groupedReceipts[date].items.map((item, index) => (
@@ -66,7 +67,9 @@ const List = ({ userData, onDeleteData, reloadFlag, onLogout }) => {
                   <div className="d-flex justify-content-between fs-5">
                     <div className="w-100 d-flex justify-content-between me-3">
                       <span>${item.price}</span>
-                      <span>¥{(item.price * item.rate).toFixed(0)}</span>
+                      <span>
+                        ¥{intToStr((item.price * item.rate).toFixed(0))}
+                      </span>
                     </div>
                     <div>
                       <button
