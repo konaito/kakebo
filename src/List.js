@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./Header";
+import { ButtonToolbar } from "react-bootstrap";
 
 const List = ({ userData, onDeleteData, reloadFlag, onLogout, intToStr }) => {
   const [groupedReceipts, setGroupedReceipts] = useState({});
@@ -54,10 +55,10 @@ const List = ({ userData, onDeleteData, reloadFlag, onLogout, intToStr }) => {
         onLogout={onLogout}
         intToStr={intToStr}
       />
-      <div className="container mt-4">
+      <div className="container mt-4" style={{marginBottom:"80px"}}>
         {Object.keys(groupedReceipts).map((date) => (
           <div key={date} className="mb-2">
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between px-2">
               <h4 dangerouslySetInnerHTML={{ __html: date }}></h4>
               <h4>{intToStr(groupedReceipts[date].total.toFixed(0))}円</h4>
             </div>
