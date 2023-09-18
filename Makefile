@@ -5,6 +5,9 @@ TARGET_FILES=src/**/*.js
 fmt:
 	$(FORMATTER) $(FORMATTER_OPTIONS) $(TARGET_FILES)
 
+start:
+	npm start
+
 build: fmt
 	npm run build
 
